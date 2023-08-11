@@ -1,0 +1,22 @@
+.btn-load {
+  background-color: #ff901b;
+  width: 100%;
+  color: #ff321a;
+  border: none;
+  font-family: 'Merriweather Sans', sans-serif;
+  font-size: 1.2rem;
+  padding: 15px 30px;
+  cursor: pointer;
+  margin-top: 2.5rem;
+}
+
+.btn-load:hover {
+  background-color: #ff321a;
+  color: #ff901b;
+  transition: .5s;
+}
+
+.btn-load:disabled {
+  background: #888;
+  cursor: not-allowed;
+}

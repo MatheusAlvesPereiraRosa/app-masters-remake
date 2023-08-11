@@ -1,0 +1,24 @@
+.loader-container {
+  height: 64vh;
+  display: flex;
+  justify-content: center;
+  padding-block: 2rem;
+  align-items: center;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.smooth-loader {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border-top: .5rem solid #ff901b;
+  border-left: .5rem solid #ff321a;
+  border-right: .5rem solid rgba(255, 255, 255, 0);
+
+  animation: spin 0.575s infinite linear;
+}

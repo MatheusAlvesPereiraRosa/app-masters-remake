@@ -1,0 +1,29 @@
+.search-input {
+  border-radius: 5px;
+  width: 35%;
+  font-size: 1.5rem;
+  font-family: 'Merriweather Sans', sans-serif;;
+  padding: .3rem .8rem;
+  color: rgb(170 166 195);
+  border-color: rgb(21 16 48);
+  background-color: rgb(21 16 48);
+  outline: none;
+}
+
+.search-input::placeholder {
+  font-family: 'Merriweather Sans', sans-serif;;
+  color: rgb(170 166 195);
+}
+
+@media screen and (max-width: 1150px) {
+  .search-input {
+    width: 45%;
+  }
+}
+
+@media screen and (max-width: 790px) {
+  .search-input {
+    font-size: 1.35rem;
+    width: 100%;
+  }
+}

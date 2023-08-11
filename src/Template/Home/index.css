@@ -1,0 +1,19 @@
+.container {
+  margin-inline: 4rem;
+  margin-block: 4rem; 
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 3rem;
+}
+
+.search-container > h1 {
+  margin-top: 1rem;
+}
+
+.no-result {
+  text-align: center;
+}
