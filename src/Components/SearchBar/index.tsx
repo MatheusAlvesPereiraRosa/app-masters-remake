@@ -1,8 +1,8 @@
 import './index.css';
 
 interface Props {
-  searchValue: string,
-  handleChange(e: React.ChangeEvent<HTMLInputElement>): void
+  searchValue: string;
+  handleChange(e: React.ChangeEvent<HTMLInputElement>): void;
 }
 
 export const SearchBar = ({ searchValue, handleChange }: Props) => (
@@ -14,4 +14,3 @@ export const SearchBar = ({ searchValue, handleChange }: Props) => (
     onChange={handleChange}
   />
 );
-

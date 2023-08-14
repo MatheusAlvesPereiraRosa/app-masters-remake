@@ -9,12 +9,16 @@ import { SearchBar } from '../../Components/SearchBar';
 
 import { IGame } from '../../interfaces/Game';
 import { IStatusReq } from '../../interfaces/StatusReq';
+import { GenreSelect } from '../../Components/GenreSelect';
 
 function Home() {
   const [data, setData] = useState<IGame[]>([]);
   const [fullData, setFullData] = useState<IGame[]>([]);
+  //const [filteredData, setFilteredData] = useState<IGame[]>([])
   const [page, setPage] = useState<number>(0);
   const [searchValue, setSearchValue] = useState<string>('');
+  const [genres, setGenres] = useState<string[]>([]);
+  const [selectedGenre, setSelectedGenre] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [statusReq, setStatusReq] = useState<IStatusReq>({
     message: '',
@@ -24,13 +28,14 @@ function Home() {
   });
 
   // constantes
-  const DATA_PER_PAGE = 15;
+  const DATA_PER_PAGE: number = 15;
   const NO_MORE_DATA: boolean = page + DATA_PER_PAGE >= fullData.length;
   const filteredData = searchValue
     ? fullData.filter((data) => {
         return data.title.toLowerCase().includes(searchValue.toLowerCase());
       })
     : data;
+  
 
   const getData = async () => {
     await axios
@@ -44,6 +49,7 @@ function Home() {
       .then((response) => {
         setData(response.data.slice(page, DATA_PER_PAGE));
         setFullData(response.data);
+        setGenreArr(response.data);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -71,7 +77,35 @@ function Home() {
     getData();
   }, []);
 
+  /*useEffect(() => {
+
+  }, [])*/
+
   // funções
+
+  /*const filterData = (fullData: IGame[], searchValue?: string, selectedGenre?: string): void => {
+    let filteredData = fullData;
+  
+    // Apply search filter
+    if (searchValue) {
+      filteredData = filteredData.filter(data =>
+        data.title.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
+  
+    // Apply genre filter
+    if (selectedGenre) {
+      filteredData = filteredData.filter(data =>
+        data.genre === selectedGenre
+      );
+    }
+
+    if (selectedGenre === '' && searchValue === '') {
+      filteredData = fullData
+    }
+    
+    setFilteredData(filteredData)
+  };*/
 
   function getNextPage(page: number, DATA_PER_PAGE: number): number {
     const nextPage = page + DATA_PER_PAGE;
@@ -79,7 +113,7 @@ function Home() {
     return nextPage;
   }
 
-  function getNextData(nextPage: number, DATA_PER_PAGE: number): IGame {
+  function getNextData(nextPage: number, DATA_PER_PAGE: number): IGame[] {
     const nextData = fullData.slice(nextPage, nextPage + DATA_PER_PAGE);
 
     data.push(...nextData);
@@ -98,10 +132,28 @@ function Home() {
     return false;
   }
 
+  const setGenreArr = (games: IGame[]): void => {
+    const uniqueGenres = games.reduce((uniqueGenres, item) => {
+      if (!uniqueGenres.includes(item.genre)) {
+        uniqueGenres.push(item.genre);
+      }
+      return uniqueGenres;
+    }, []);
+
+    setGenres(uniqueGenres);
+  };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearchValue(value);
-  }
+    //filterData(fullData, searchValue, selectedGenre)
+  };
+
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
+    setSelectedGenre(value);
+    //filterData(fullData, searchValue, selectedGenre)
+  };
 
   const loadMoreData = (): void => {
     const nextPage = getNextPage(page, DATA_PER_PAGE);
@@ -114,16 +166,26 @@ function Home() {
   return (
     <section className="container">
       <div className="search-container">
-        <SearchBar searchValue={searchValue} handleChange={handleChange} />
+        <div className="input-container">
+          <SearchBar searchValue={searchValue} handleChange={handleChange} />
 
-        {!!searchValue && <h1>Search value: {searchValue}</h1>}
+          <GenreSelect
+            genreValue={selectedGenre}
+            handleChange={handleSelectChange}
+            genres={genres}
+          />
+        </div>
+
+        {!!searchValue && <h1 style={{ textAlign: 'center' }}>Search value: {searchValue}</h1>}
       </div>
 
       {isLoading && <Loading />}
 
       {filteredData.length > 0 && <GameList data={filteredData} />}
 
-      {filteredData.length === 0 && <p className="no-result">Sem resultados para a pesquisa</p>}
+      {filteredData.length === 0 && !isLoading && (
+        <p className="no-result">Sem resultados para a pesquisa</p>
+      )}
 
       {statusReq.error === true && validateError(statusReq.code) && (
         <p className="no-result">O servidor falhou em responder, tente recarregar a página</p>
@@ -140,7 +202,7 @@ function Home() {
       )}
 
       {!searchValue && !isLoading && statusReq.error === false && statusReq.timeout === false && (
-        <Button onClick={loadMoreData} disabled={NO_MORE_DATA} />
+        <Button onClick={loadMoreData} isDisabled={NO_MORE_DATA} />
       )}
     </section>
   );

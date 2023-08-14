@@ -1,5 +1,3 @@
-import P from 'prop-types';
-import React from 'react';
 import './index.css';
 
 import { GameItem } from '../GameItem';

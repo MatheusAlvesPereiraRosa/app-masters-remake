@@ -1,12 +1,12 @@
 import './index.css';
-import P from 'prop-types';
 
 interface Props {
-  onClick(): void 
+  onClick(): void;
+  isDisabled: boolean;
 }
 
-export const Button = ({ onClick }: Props) => (
-  <button onClick={onClick} type="button" className="btn-load">
+export const Button = ({ onClick, isDisabled }: Props) => (
+  <button onClick={onClick} type="button" className="btn-load" disabled={isDisabled}>
     <div className="btn-text">Load more...</div>
   </button>
 );
