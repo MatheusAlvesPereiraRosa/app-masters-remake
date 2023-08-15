@@ -3,23 +3,47 @@
   margin-block: 4rem; 
 }
 
-.search-container {
+.top-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 3rem;
 }
 
-.input-container {
+.filter-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 70%;
 }
 
 .search-container > h1 {
   margin-top: 1rem;
 }
 
+.error-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.error-container > .error-img {
+  width: 20rem;
+  margin-top: 2rem;
+}
+
+.error-container > .timeout-img {
+  width: 15rem;
+  margin-top: 2rem;
+}
+
 .no-result {
   text-align: center;
+}
+
+@media screen and (max-width: 650px) {
+  .filter-container {
+    flex-direction: column;
+    width: 100%;
+  }
 }

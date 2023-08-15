@@ -11,15 +11,10 @@
   margin-left: 1rem;
 }
 
-@media screen and (max-width: 1150px) {
-  .search-input {
-    width: 45%;
-  }
-}
-
-@media screen and (max-width: 790px) {
-  .search-input {
-    font-size: 1.35rem;
+@media screen and (max-width: 650px) {
+  .select-input {
+    font-size: 1.07rem;
     width: 100%;
+    margin: 1rem 0 0 0;
   }
 }

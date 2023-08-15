@@ -1,20 +1,26 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
+// componentes
 import './index.css';
 import { Button } from '../../Components/Button';
 import { GameList } from '../../Components/GameList';
 import { Loading } from '../../Components/Loading';
 import { SearchBar } from '../../Components/SearchBar';
 
+// interfaces
 import { IGame } from '../../interfaces/Game';
 import { IStatusReq } from '../../interfaces/StatusReq';
 import { GenreSelect } from '../../Components/GenreSelect';
 
+// assets
+import error from '../../Assets/error.png';
+import timeout from '../../Assets/timeout.png';
+
 function Home() {
   const [data, setData] = useState<IGame[]>([]);
   const [fullData, setFullData] = useState<IGame[]>([]);
-  //const [filteredData, setFilteredData] = useState<IGame[]>([])
+  const [filteredData, setFilteredData] = useState<IGame[]>([]);
   const [page, setPage] = useState<number>(0);
   const [searchValue, setSearchValue] = useState<string>('');
   const [genres, setGenres] = useState<string[]>([]);
@@ -28,14 +34,13 @@ function Home() {
   });
 
   // constantes
-  const DATA_PER_PAGE: number = 15;
+  const DATA_PER_PAGE = 15;
   const NO_MORE_DATA: boolean = page + DATA_PER_PAGE >= fullData.length;
-  const filteredData = searchValue
+  /*const filteredData = searchValue
     ? fullData.filter((data) => {
         return data.title.toLowerCase().includes(searchValue.toLowerCase());
       })
-    : data;
-  
+    : data;*/
 
   const getData = async () => {
     await axios
@@ -77,35 +82,31 @@ function Home() {
     getData();
   }, []);
 
-  /*useEffect(() => {
-
-  }, [])*/
+  useEffect(() => {
+    filterData(fullData, searchValue, selectedGenre);
+  }, [fullData, searchValue, selectedGenre]);
 
   // funções
 
-  /*const filterData = (fullData: IGame[], searchValue?: string, selectedGenre?: string): void => {
+  const filterData = (fullData: IGame[], searchValue?: string, selectedGenre?: string): void => {
     let filteredData = fullData;
-  
-    // Apply search filter
+
     if (searchValue) {
-      filteredData = filteredData.filter(data =>
+      filteredData = filteredData.filter((data) =>
         data.title.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
-  
-    // Apply genre filter
+
     if (selectedGenre) {
-      filteredData = filteredData.filter(data =>
-        data.genre === selectedGenre
-      );
+      filteredData = filteredData.filter((data) => data.genre === selectedGenre);
     }
 
     if (selectedGenre === '' && searchValue === '') {
-      filteredData = fullData
+      filteredData = data;
     }
-    
-    setFilteredData(filteredData)
-  };*/
+
+    setFilteredData(filteredData);
+  };
 
   function getNextPage(page: number, DATA_PER_PAGE: number): number {
     const nextPage = page + DATA_PER_PAGE;
@@ -165,8 +166,8 @@ function Home() {
 
   return (
     <section className="container">
-      <div className="search-container">
-        <div className="input-container">
+      <div className="top-container">
+        <div className="filter-container">
           <SearchBar searchValue={searchValue} handleChange={handleChange} />
 
           <GenreSelect
@@ -176,7 +177,7 @@ function Home() {
           />
         </div>
 
-        {!!searchValue && <h1 style={{ textAlign: 'center' }}>Search value: {searchValue}</h1>}
+        {!!searchValue && <h1 style={{ textAlign: 'center', marginTop: '2rem' }}>Search value: {searchValue}</h1>}
       </div>
 
       {isLoading && <Loading />}
@@ -188,22 +189,33 @@ function Home() {
       )}
 
       {statusReq.error === true && validateError(statusReq.code) && (
-        <p className="no-result">O servidor falhou em responder, tente recarregar a página</p>
+        <div className="error-container">
+          <p className="no-result">O servidor falhou em responder, tente recarregar a página</p>
+          <img className="error-img" src={error} />
+        </div>
       )}
 
       {statusReq.error === true && !validateError(statusReq.code) && (
-        <p className="no-result">
-          O servidor não conseguirá responder por agora, tente voltar novamente mais tarde
-        </p>
+        <div className="error-container">
+          <p className="no-result">
+            O servidor não conseguirá responder por agora, tente voltar novamente mais tarde
+          </p>
+          <img className="error-img" src={error} />
+        </div>
       )}
 
       {statusReq.timeout === true && statusReq.code === 'Timeout' && (
-        <p className="no-result">O servidor demorou para responder, tente mais tarde</p>
+        <div className="error-container">
+          <p className="no-result">O servidor demorou para responder, tente mais tarde</p>
+          <img className="timeout-img" src={timeout} />
+        </div>
       )}
 
-      {!searchValue && !isLoading && statusReq.error === false && statusReq.timeout === false && (
-        <Button onClick={loadMoreData} isDisabled={NO_MORE_DATA} />
-      )}
+      {!searchValue &&
+        !selectedGenre &&
+        !isLoading &&
+        statusReq.error === false &&
+        statusReq.timeout === false && <Button onClick={loadMoreData} isDisabled={NO_MORE_DATA} />}
     </section>
   );
 }
