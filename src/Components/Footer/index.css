@@ -1,0 +1,21 @@
+.footer {
+  width: 100%;
+  padding: 20px;
+  background-color: rgb(21 16 48);
+  color: white;
+  transition: position 0.3s ease;
+}
+
+.footer p {
+  text-align: center;
+}
+
+.footer a {
+  text-decoration: none;
+  color: blueviolet;
+}
+
+.fixed {
+  position: fixed;
+  bottom: 0;
+}

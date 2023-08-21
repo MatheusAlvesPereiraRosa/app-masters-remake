@@ -1,0 +1,40 @@
+.navbar {
+  background-color: rgb(21 16 48);
+}
+
+.navbar > ul {
+  display: flex;
+}
+
+.navbar > ul > li {
+  padding: 1rem;
+}
+
+.navbar > ul > li > p {
+  margin-left: 0.35rem;
+  color: darkorchid;
+  font-size: 1.25rem;
+}
+
+.navbar > ul > li > p::first-letter {
+  color: blueviolet;
+}
+
+.navbar > ul > .list-item_logo {
+  display: flex;
+  align-items: center;
+}
+
+.game-logo {
+  width: 3rem;
+}
+
+@media (max-width: 600px) {
+  .navbar > ul > li > p {
+    font-size: 1.15rem;
+  }
+
+  .game-logo {
+    width: 2.25rem;
+  }
+}

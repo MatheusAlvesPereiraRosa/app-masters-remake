@@ -31,12 +31,6 @@
   justify-content: space-between;
 }
 
-.card-item:hover {
-  transform: scale(1.05);
-  /*transform: translateY(-4px);*/
-  cursor: pointer;
-}
-
 @media (max-width: 1286px) {
   .text-container > h1 {
     font-size: 2rem;

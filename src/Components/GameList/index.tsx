@@ -3,6 +3,7 @@ import './index.css';
 import { GameItem } from '../GameItem';
 import { IGame } from '../../interfaces/Game';
 
+import { motion } from 'framer-motion';
 interface Props {
   data: IGame[];
 }

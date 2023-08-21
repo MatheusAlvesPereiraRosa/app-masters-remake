@@ -2,6 +2,8 @@ import './index.css';
 
 import { IGame } from '../../interfaces/Game';
 
+import { motion } from 'framer-motion';
+
 export const GameItem = ({
   title,
   thumbnail,
@@ -11,7 +13,7 @@ export const GameItem = ({
   release_date
 }: IGame) => {
   return (
-    <div className="card-item">
+    <motion.div layout whileHover={{ scale: 1.1 }} className="card-item">
       <img src={thumbnail} alt="Imagem do Jogo" />
 
       <div className="text-container">
@@ -32,6 +34,6 @@ export const GameItem = ({
           </p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

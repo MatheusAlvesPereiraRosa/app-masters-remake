@@ -7,6 +7,8 @@ import { Button } from '../../Components/Button';
 import { GameList } from '../../Components/GameList';
 import { Loading } from '../../Components/Loading';
 import { SearchBar } from '../../Components/SearchBar';
+import { Header } from '../../Components/Header';
+import {Footer} from '../../Components/Footer';
 
 // interfaces
 import { IGame } from '../../interfaces/Game';
@@ -32,15 +34,11 @@ function Home() {
     error: false,
     timeout: false
   });
+  const [isFooterAtBottom, setIsFooterAtBottom] = useState(true);
 
   // constantes
   const DATA_PER_PAGE = 15;
   const NO_MORE_DATA: boolean = page + DATA_PER_PAGE >= fullData.length;
-  /*const filteredData = searchValue
-    ? fullData.filter((data) => {
-        return data.title.toLowerCase().includes(searchValue.toLowerCase());
-      })
-    : data;*/
 
   const getData = async () => {
     await axios
@@ -78,13 +76,28 @@ function Home() {
       });
   };
 
+  // fazer requisição para recolher os dados
   useEffect(() => {
     getData();
   }, []);
 
+  // mostrar os jogos de acordo com os filtros
   useEffect(() => {
     filterData(fullData, searchValue, selectedGenre);
   }, [fullData, searchValue, selectedGenre]);
+
+  // verificar se o footer deve ficar fixado na tela ou não
+  useEffect(() => {
+    const handleScroll = () => {
+      const contentHeight = document.body.scrollHeight;
+      const viewportHeight = window.innerHeight;
+
+      setIsFooterAtBottom(viewportHeight > contentHeight);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [filteredData]);
 
   // funções
 
@@ -147,13 +160,11 @@ function Home() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearchValue(value);
-    //filterData(fullData, searchValue, selectedGenre)
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
     setSelectedGenre(value);
-    //filterData(fullData, searchValue, selectedGenre)
   };
 
   const loadMoreData = (): void => {
@@ -165,58 +176,66 @@ function Home() {
   };
 
   return (
-    <section className="container">
-      <div className="top-container">
-        <div className="filter-container">
-          <SearchBar searchValue={searchValue} handleChange={handleChange} />
+    <>
+      <Header />
+      <section className="container"> 
+        <div className="top-container">
+          <div className="filter-container">
+            <SearchBar searchValue={searchValue} handleChange={handleChange} />
 
-          <GenreSelect
-            genreValue={selectedGenre}
-            handleChange={handleSelectChange}
-            genres={genres}
-          />
+            <GenreSelect
+              genreValue={selectedGenre}
+              handleChange={handleSelectChange}
+              genres={genres}
+            />
+          </div>
+
+          {!!searchValue && (
+            <h1 style={{ textAlign: 'center', marginTop: '2rem' }}>Search value: {searchValue}</h1>
+          )}
         </div>
 
-        {!!searchValue && <h1 style={{ textAlign: 'center', marginTop: '2rem' }}>Search value: {searchValue}</h1>}
-      </div>
+        {isLoading && <Loading />}
 
-      {isLoading && <Loading />}
+        {filteredData.length > 0 && <GameList data={filteredData} />}
 
-      {filteredData.length > 0 && <GameList data={filteredData} />}
+        {filteredData.length === 0 && !isLoading && (
+          <p className="no-result">Sem resultados para a pesquisa</p>
+        )}
 
-      {filteredData.length === 0 && !isLoading && (
-        <p className="no-result">Sem resultados para a pesquisa</p>
-      )}
+        {statusReq.error === true && validateError(statusReq.code) && (
+          <div className="error-container">
+            <p className="no-result">O servidor falhou em responder, tente recarregar a página</p>
+            <img className="error-img" src={error} />
+          </div>
+        )}
 
-      {statusReq.error === true && validateError(statusReq.code) && (
-        <div className="error-container">
-          <p className="no-result">O servidor falhou em responder, tente recarregar a página</p>
-          <img className="error-img" src={error} />
-        </div>
-      )}
+        {statusReq.error === true && !validateError(statusReq.code) && (
+          <div className="error-container">
+            <p className="no-result">
+              O servidor não conseguirá responder por agora, tente voltar novamente mais tarde
+            </p>
+            <img className="error-img" src={error} />
+          </div>
+        )}
 
-      {statusReq.error === true && !validateError(statusReq.code) && (
-        <div className="error-container">
-          <p className="no-result">
-            O servidor não conseguirá responder por agora, tente voltar novamente mais tarde
-          </p>
-          <img className="error-img" src={error} />
-        </div>
-      )}
+        {statusReq.timeout === true && statusReq.code === 'Timeout' && (
+          <div className="error-container">
+            <p className="no-result">O servidor demorou para responder, tente mais tarde</p>
+            <img className="timeout-img" src={timeout} />
+          </div>
+        )}
 
-      {statusReq.timeout === true && statusReq.code === 'Timeout' && (
-        <div className="error-container">
-          <p className="no-result">O servidor demorou para responder, tente mais tarde</p>
-          <img className="timeout-img" src={timeout} />
-        </div>
-      )}
-
-      {!searchValue &&
-        !selectedGenre &&
-        !isLoading &&
-        statusReq.error === false &&
-        statusReq.timeout === false && <Button onClick={loadMoreData} isDisabled={NO_MORE_DATA} />}
-    </section>
+        {!searchValue &&
+          !selectedGenre &&
+          !isLoading &&
+          statusReq.error === false &&
+          statusReq.timeout === false && (
+            <Button onClick={loadMoreData} isDisabled={NO_MORE_DATA} />
+          )}
+      </section>
+      <Footer isAtBottom={isFooterAtBottom} />
+    </>
   );
 }
 
