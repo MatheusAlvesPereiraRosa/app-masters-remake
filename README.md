@@ -1,46 +1,44 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Game Center 
 
-## Available Scripts
+Seja bem vindo, sou Matheus Alves e esse projeto é um incremento do projeto que fiz quando estava concorrendo uma vaga de desenvolvimento. Eu dei uma melhorada e acrescentei algumas coisas ao código para me desafiar e melhorar minhas habilidades
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Demonstração
 
-### `npm test`
+O projeto possui uma versão hospedada para facilitar os testes, segue o link abaixo
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+[https://tech-challenge-w.netlify.app/](https://game-center-remake.netlify.app/)
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Instalação
 
-### `npm run eject`
+Rode o comando npm i no terminal que desejar antes de iniciar o projeto
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+  npm install
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Após isso rode o projeto com o comando npm start
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+  npm start
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+E pronto, o projeto já vai estar funcional e pronto para ser visualizado/testado em sua máquina
+    
+## Bibliotecas/Frameworks utilizados
 
-## Learn More
+**typescript:** É um complemento para o javascript, que permite a tipagem e a implementação de algumas funcionalidades que o javascript não possui nativamente. Serve de grande ajuda para uniformizar o código e manter um padrão mais agrádavel.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**framer-motion:** É um framework de estilização Front-End que permite aplicar animações em divs.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**axios:** É uma biblioteca que permite fazer requisições http mais facilitadas e um concorrente direto do fetchAPI.
+
+**eslint:** Serve para alertar os desenvolvedores sobre boas práticas, estilização e padrões na hora de codificar.
+
+
