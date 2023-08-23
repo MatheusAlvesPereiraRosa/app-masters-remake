@@ -8,7 +8,7 @@ import { GameList } from '../../Components/GameList';
 import { Loading } from '../../Components/Loading';
 import { SearchBar } from '../../Components/SearchBar';
 import { Header } from '../../Components/Header';
-import {Footer} from '../../Components/Footer';
+import { Footer } from '../../Components/Footer';
 
 // interfaces
 import { IGame } from '../../interfaces/Game';
@@ -25,7 +25,7 @@ function Home() {
   const [filteredData, setFilteredData] = useState<IGame[]>([]);
   const [page, setPage] = useState<number>(0);
   const [searchValue, setSearchValue] = useState<string>('');
-  const [genres, setGenres] = useState<string[]>([]);
+  //const [genres, setGenres] = useState<string[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [statusReq, setStatusReq] = useState<IStatusReq>({
@@ -37,6 +37,13 @@ function Home() {
   const [isFooterAtBottom, setIsFooterAtBottom] = useState(true);
 
   // constantes
+  const setGenreArr = (games: IGame[]): string[] => {
+    const uniqueGenresSet = new Set(games.map((item) => item.genre));
+
+    return [...uniqueGenresSet];
+  };
+
+  const UNIQUE_GENRES = setGenreArr(fullData);
   const DATA_PER_PAGE = 15;
   const NO_MORE_DATA: boolean = page + DATA_PER_PAGE >= fullData.length;
 
@@ -52,7 +59,7 @@ function Home() {
       .then((response) => {
         setData(response.data.slice(page, DATA_PER_PAGE));
         setFullData(response.data);
-        setGenreArr(response.data);
+        //setGenreArr(response.data);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -146,17 +153,6 @@ function Home() {
     return false;
   }
 
-  const setGenreArr = (games: IGame[]): void => {
-    const uniqueGenres = games.reduce((uniqueGenres, item) => {
-      if (!uniqueGenres.includes(item.genre)) {
-        uniqueGenres.push(item.genre);
-      }
-      return uniqueGenres;
-    }, []);
-
-    setGenres(uniqueGenres);
-  };
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearchValue(value);
@@ -178,7 +174,7 @@ function Home() {
   return (
     <>
       <Header />
-      <section className="container"> 
+      <section className="container">
         <div className="top-container">
           <div className="filter-container">
             <SearchBar searchValue={searchValue} handleChange={handleChange} />
@@ -186,7 +182,7 @@ function Home() {
             <GenreSelect
               genreValue={selectedGenre}
               handleChange={handleSelectChange}
-              genres={genres}
+              genres={UNIQUE_GENRES}
             />
           </div>
 
