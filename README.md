@@ -10,9 +10,7 @@ Seja bem vindo, sou Matheus Alves e esse projeto é um incremento do projeto que
 
 O projeto possui uma versão hospedada para facilitar os testes, segue o link abaixo
 
-[https://tech-challenge-w.netlify.app/](https://game-center-remake.netlify.app/)
-
-
+https://game-center-remake.netlify.app/
 
 
 ## Instalação
