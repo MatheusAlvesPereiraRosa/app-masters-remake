@@ -1,5 +1,3 @@
-
-
 export interface IStatusReq {
   message: string
   code: string

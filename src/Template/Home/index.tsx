@@ -25,7 +25,6 @@ function Home() {
   const [filteredData, setFilteredData] = useState<IGame[]>([]);
   const [page, setPage] = useState<number>(0);
   const [searchValue, setSearchValue] = useState<string>('');
-  //const [genres, setGenres] = useState<string[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [statusReq, setStatusReq] = useState<IStatusReq>({
@@ -59,7 +58,6 @@ function Home() {
       .then((response) => {
         setData(response.data.slice(page, DATA_PER_PAGE));
         setFullData(response.data);
-        //setGenreArr(response.data);
         setIsLoading(false);
       })
       .catch((error) => {
