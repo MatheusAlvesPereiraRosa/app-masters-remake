@@ -28,6 +28,12 @@ Após isso rode o projeto com o comando npm start
 ```
 
 E pronto, o projeto já vai estar funcional e pronto para ser visualizado/testado em sua máquina
+
+Obs.: Caso o código tenha alguns avisos envolvendo pacotes desatualizados é devido ao tempo em que o código possui, outra coisa, se houverem erros dos lints de identação, basta rodar o comando abaixo para o eslint corrigir o código:
+
+```bash
+  npm run lint:fix
+```
     
 ## Bibliotecas/Frameworks utilizados
 
